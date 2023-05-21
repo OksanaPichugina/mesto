@@ -1,5 +1,7 @@
 .element__image {
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  height: 282px;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
 }

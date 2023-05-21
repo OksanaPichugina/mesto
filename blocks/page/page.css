@@ -4,8 +4,8 @@
   margin-right: auto;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 879px) {
   .page {
-    width: 282px;
+    width: 320px;
   }
 }

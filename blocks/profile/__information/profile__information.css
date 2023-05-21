@@ -4,11 +4,10 @@
   align-items: center;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 879px) {
   .profile__information {
     display: flex;
     gap: 0;
     flex-direction: column;
-    justify-content: center;
   }
 }

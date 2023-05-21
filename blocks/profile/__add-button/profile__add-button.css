@@ -8,7 +8,7 @@
   background-color: #000;
   transition: all 0.2s;
   cursor: pointer;
-  background-image: url(/images/Add\ Button.svg);
+  background-image: url(/images/Add-Button_for-big-px.svg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -21,11 +21,11 @@
   transition: all 0.2s;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 879px) {
   .profile__add-button {
     width: 282px;
     height: 50px;
     margin-top: 36px;
-    background-image: url(/images/Add\ Button\ for\ 360px.png);
+    background-image: url(/images/Add-button-for-360px.svg);
   }
 }

@@ -7,16 +7,6 @@ const nameInputEl = document.querySelector('#name-input');
 const jobInputEl = document.querySelector('#job-input');
 const editFormEl = document.querySelector('#edit-form');
 
-openPopupEl.addEventListener('click',function(){
-    openPopup(editPopupEl);
-})
-
-closePopupEl.addEventListener('click',function(){
-    closePopup(editPopupEl);
-})
-
-nameInputEl.value = namePopupEl.textContent;
-jobInputEl.value = jobPopupEl.textContent;
 
 editFormEl.addEventListener('submit',function(event){
     event.preventDefault();
@@ -26,10 +16,19 @@ editFormEl.addEventListener('submit',function(event){
 })
 
 function openPopup(popupEl){
-    popupEl.classList.add('popup_is-opened');
+    popupEl.classList.add('popup_opened');
+    nameInputEl.value = namePopupEl.textContent;
+    jobInputEl.value = jobPopupEl.textContent;
 }
 
 function closePopup(popupEl){
-    popupEl.classList.remove('popup_is-opened');
+    popupEl.classList.remove('popup_opened');
 }
     
+openPopupEl.addEventListener('click',function(){
+    openPopup(editPopupEl);
+})
+
+closePopupEl.addEventListener('click',function(){
+    closePopup(editPopupEl);
+})
