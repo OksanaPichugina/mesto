@@ -13,11 +13,11 @@
   background-size: cover;
 }
 
-.profile__edit-button:hover {
+.profile__add-button:hover {
   transition: all 0.2s;
 }
 
-.profile__edit-button:active {
+.profile__add-button:active {
   transition: all 0.2s;
 }
 

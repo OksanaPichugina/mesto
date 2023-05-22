@@ -5,11 +5,11 @@
   padding: 0;
   transition: all 0.2s;
   cursor: pointer;
-  background: url(./../../../images/LIKES.png);
+  background: url(./../../../images/button-like.svg);
 }
 
 .element__like:hover {
-  opacity: 80%;
+  opacity: 0.5;
   transition: all 0.2s;
 }
 

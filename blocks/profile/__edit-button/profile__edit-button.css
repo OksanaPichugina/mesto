@@ -4,14 +4,15 @@
   border: 0;
   width: 24px;
   height: 24px;
-  background-color: #000;
   align-self: center;
   transition: all 0.2s;
   cursor: pointer;
+  background: url(./../../../images/Edit-Button.svg);
 }
 
 .profile__edit-button:hover {
   transition: all 0.2s;
+  opacity: 0.6;
 }
 
 .profile__edit-button:active {
@@ -20,6 +21,7 @@
 
 @media screen and (max-width: 879px) {
   .profile__edit-button {
+    background: url(./../../../images/edit-button-for-min-px.svg);
     width: 18px;
     height: 18px;
   }
