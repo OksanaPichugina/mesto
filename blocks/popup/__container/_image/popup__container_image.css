@@ -1,4 +1,4 @@
-.popup-image__form {
+.popup__container_image {
   display: flex;
   flex-direction: column;
   gap: 10px;

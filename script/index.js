@@ -6,6 +6,7 @@ const jobPopupEl = document.querySelector('.profile__job');
 const nameInputEl = document.querySelector('#name-input');
 const jobInputEl = document.querySelector('#job-input');
 const editFormEl = document.querySelector('#edit-form');
+const closeButtons = document.querySelectorAll('.popup__close-button');
 
 
 editFormEl.addEventListener('submit',function(event){
@@ -17,21 +18,25 @@ editFormEl.addEventListener('submit',function(event){
 
 function openPopup(popupEl){
     popupEl.classList.add('popup_opened');
-    nameInputEl.value = namePopupEl.textContent;
-    jobInputEl.value = jobPopupEl.textContent;
 }
 
 function closePopup(popupEl){
     popupEl.classList.remove('popup_opened');
 }
+
+closeButtons.forEach((button) => {
+  // находим 1 раз ближайший к крестику попап 
+  const popup = button.closest('.popup');
+  // устанавливаем обработчик закрытия на крестик
+  button.addEventListener('click', () => closePopup(popup));
+});
     
 openPopupEl.addEventListener('click',function(){
     openPopup(editPopupEl);
+    nameInputEl.value = namePopupEl.textContent;
+    jobInputEl.value = jobPopupEl.textContent;
 })
 
-closePopupEl.addEventListener('click',function(){
-    closePopup(editPopupEl);
-})
 
 const template = document.querySelector('#element-template');
 const templateContent = template.content;
@@ -45,8 +50,8 @@ const closePopupAdd = document.querySelector('#close-popup_add');
 
 const imagePopup = document.querySelector('#image-popup');
 const closePopupImage = document.querySelector('#close-popup-image'); 
-const popupImage = imagePopup.querySelector('.popup-image__image');
-const popupText = imagePopup.querySelector('.popup-image__text');
+const popupImage = imagePopup.querySelector('.popup__image');
+const popupText = imagePopup.querySelector('.popup__text');
 
 const initialCards = [
     {
@@ -86,6 +91,7 @@ function createNewCard(item){
     textCard.textContent = item.name;
     const imageCard = newCard.querySelector('.element__image');
     imageCard.src = item.link;
+    imageCard.alt = item.name;
     const likeButton = newCard.querySelector('.element__like');
     likeButton.addEventListener('click', function (evt){
         evt.target.classList.toggle('element__like_active')
@@ -97,16 +103,15 @@ function createNewCard(item){
     
     //открытие карточки в формочке
     imageCard.addEventListener('click', function (){
-      imagePopup.classList.add('popup-image_opened');
+      openPopup(imagePopup)
       popupImage.src= item.link;
+      popupImage.alt= item.name;
       popupText.textContent = item.name;
-      closePopupImage.addEventListener('click', () => imagePopup.classList.remove('popup-image_opened'));
     })
     return newCard;
 }
 
 openPopupAdd.addEventListener('click',() => openPopup(addPopup));
-closePopupAdd.addEventListener('click', () => closePopup(addPopup));
 
 addFormEl.addEventListener('submit', function(event){
   event.preventDefault();
@@ -123,5 +128,6 @@ addFormEl.addEventListener('submit', function(event){
   }
   const newElement = createNewCard(Item);
   elementItems.prepend(newElement);
+  closePopup(addPopup);
   form.reset();
 })
