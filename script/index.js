@@ -131,3 +131,4 @@ addFormEl.addEventListener('submit', function(event){
   closePopup(addPopup);
   form.reset();
 })
+
