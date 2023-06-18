@@ -15,13 +15,27 @@ editFormEl.addEventListener('submit',function(event){
     jobPopupEl.textContent = jobInputEl.value;
     closePopup(editPopupEl)
 })
+document.addEventListener('keydown',function(evt){ 
+  const popup = document.querySelector('.popup_opened') 
+  if (evt.keyCode === 27){ closePopup(popup); 
+  } 
+}) 
+
+function closingByEsc(evt, popup){
+  const keyOfEsc=27;
+    if (evt.target.keyCode === keyOfEsc){
+      closePopup(popup);
+    }
+}
 
 function openPopup(popupEl){
     popupEl.classList.add('popup_opened');
+    document.addEventListener('keydown',closingByEsc(evt,popupEl));
 }
 
 function closePopup(popupEl){
-    popupEl.classList.remove('popup_opened');
+  popupEl.classList.remove('popup_opened');
+  document.removeEventListener('keydown',closingByEsc);
 }
 
 closeButtons.forEach((button) => {
@@ -122,13 +136,27 @@ addFormEl.addEventListener('submit', function(event){
   const nameCard = values['place'];
   const linkImg = values['link'];
 
-  const Item = {
+  const item = {
       name: nameCard,
       link: linkImg 
   }
-  const newElement = createNewCard(Item);
+  const newElement = createNewCard(item);
   elementItems.prepend(newElement);
   closePopup(addPopup);
   form.reset();
+  const buttonElement = addPopup.querySelector('.popup__submit');
+  buttonElement.classList.add('popup__button-save__inactive');
 })
 
+// закрытие попапа кликом на оверлей
+const overlays = document.querySelectorAll('.popup');
+overlays.forEach((overlay) => {
+overlay.addEventListener('click', function (evt){
+  if (evt.target.classList.contains('popup')) {
+    // находим к оверлею форму
+  const popup = document.querySelector('.popup_opened')
+  // устанавливаем обработчик закрытия 
+  closePopup(popup);
+  }
+})
+})

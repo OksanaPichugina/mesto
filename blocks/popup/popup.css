@@ -13,3 +13,7 @@
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;
 }
+
+.popup_class_image{
+  background-color: rgba(0, 0, 0, 0.9);
+}
