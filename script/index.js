@@ -15,22 +15,24 @@ editFormEl.addEventListener('submit',function(event){
     jobPopupEl.textContent = jobInputEl.value;
     closePopup(editPopupEl)
 })
-document.addEventListener('keydown',function(evt){ 
-  const popup = document.querySelector('.popup_opened') 
-  if (evt.keyCode === 27){ closePopup(popup); 
-  } 
-}) 
+//document.addEventListener('keydown',function(evt){ 
+ // const popup = document.querySelector('.popup_opened') 
+ // if (evt.keyCode === 27){ closePopup(popup); 
+ // } 
+//}) 
 
-function closingByEsc(evt, popup){
-  const keyOfEsc=27;
-    if (evt.target.keyCode === keyOfEsc){
+
+const keyOfEsc=27;
+function closingByEsc(evt){
+  const popup = document.querySelector('.popup_opened');
+    if (evt.keyCode === keyOfEsc){
       closePopup(popup);
     }
 }
 
 function openPopup(popupEl){
-    popupEl.classList.add('popup_opened');
-    document.addEventListener('keydown',closingByEsc(evt,popupEl));
+  popupEl.classList.add('popup_opened');
+  document.addEventListener('keydown',closingByEsc);
 }
 
 function closePopup(popupEl){
@@ -60,7 +62,6 @@ const addFormEl = document.querySelector('#add-form');
 const openPopupAdd = document.querySelector('#open-popup-add-button');
 const addPopup = document.querySelector('#add-popup');
 const closePopupAdd = document.querySelector('#close-popup_add');
-
 
 const imagePopup = document.querySelector('#image-popup');
 const closePopupImage = document.querySelector('#close-popup-image'); 
@@ -146,6 +147,7 @@ addFormEl.addEventListener('submit', function(event){
   form.reset();
   const buttonElement = addPopup.querySelector('.popup__submit');
   buttonElement.classList.add('popup__button-save__inactive');
+  buttonElement.setAttribute("disabled", "true");
 })
 
 // закрытие попапа кликом на оверлей
