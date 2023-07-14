@@ -1,3 +1,5 @@
+import {Card} from './Card.js';
+import {FormValidator , formSelectors} from './FormValidator.js';
 const openPopupEl = document.querySelector('#open-popup');
 const closePopupEl = document.querySelector('#close-popup');
 const editPopupEl = document.querySelector('#edit-popup');
@@ -8,38 +10,37 @@ const jobInputEl = document.querySelector('#job-input');
 const editFormEl = document.querySelector('#edit-form');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 
-
+// форма редактирования имени и работы
 editFormEl.addEventListener('submit',function(event){
     event.preventDefault();
     namePopupEl.textContent = nameInputEl.value;
     jobPopupEl.textContent = jobInputEl.value;
     closePopup(editPopupEl)
 })
-//document.addEventListener('keydown',function(evt){ 
- // const popup = document.querySelector('.popup_opened') 
- // if (evt.keyCode === 27){ closePopup(popup); 
- // } 
-//}) 
 
 
-const keyOfEsc=27;
-function closingByEsc(evt){
+// функция закрытия через Esc
+export const keyOfEsc=27;
+export function closingByEsc(evt){
   const popup = document.querySelector('.popup_opened');
     if (evt.keyCode === keyOfEsc){
       closePopup(popup);
     }
 }
 
+// функция открытия любого попапа
 function openPopup(popupEl){
   popupEl.classList.add('popup_opened');
   document.addEventListener('keydown',closingByEsc);
 }
 
+// функция закрытия любого попапа
 function closePopup(popupEl){
   popupEl.classList.remove('popup_opened');
   document.removeEventListener('keydown',closingByEsc);
 }
 
+// функция кнопки крестик
 closeButtons.forEach((button) => {
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
@@ -47,6 +48,7 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => closePopup(popup));
 });
     
+
 openPopupEl.addEventListener('click',function(){
     openPopup(editPopupEl);
     nameInputEl.value = namePopupEl.textContent;
@@ -65,8 +67,8 @@ const closePopupAdd = document.querySelector('#close-popup_add');
 
 const imagePopup = document.querySelector('#image-popup');
 const closePopupImage = document.querySelector('#close-popup-image'); 
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupText = imagePopup.querySelector('.popup__text');
+export const popupImage = imagePopup.querySelector('.popup__image');
+export const popupText = imagePopup.querySelector('.popup__text');
 
 const initialCards = [
     {
@@ -95,36 +97,16 @@ const initialCards = [
     }
   ]; 
 
-initialCards.forEach(function (item){
-    const newCard = createNewCard(item);
-    elementItems.prepend(newCard);
-});
 
-function createNewCard(item){
-    const newCard = element.cloneNode(true);
-    const textCard = newCard.querySelector('.element__text');
-    textCard.textContent = item.name;
-    const imageCard = newCard.querySelector('.element__image');
-    imageCard.src = item.link;
-    imageCard.alt = item.name;
-    const likeButton = newCard.querySelector('.element__like');
-    likeButton.addEventListener('click', function (evt){
-        evt.target.classList.toggle('element__like_active')
-    });
-    const deliteButton = newCard.querySelector('.element__delite');
-    deliteButton.addEventListener('click', function (evt){
-      evt.target.closest('.element').remove();
-    });
+
+  initialCards.forEach((item) => {
+    const card = new Card(item, '#element-template');
+    const cardElement = card.getView();
     
-    //открытие карточки в формочке
-    imageCard.addEventListener('click', function (){
-      openPopup(imagePopup)
-      popupImage.src= item.link;
-      popupImage.alt= item.name;
-      popupText.textContent = item.name;
-    })
-    return newCard;
-}
+    // Добавляем в DOM
+    document.querySelector('.elements__list').append(cardElement);
+  }); 
+
 
 openPopupAdd.addEventListener('click',() => openPopup(addPopup));
 
@@ -141,8 +123,10 @@ addFormEl.addEventListener('submit', function(event){
       name: nameCard,
       link: linkImg 
   }
-  const newElement = createNewCard(item);
-  elementItems.prepend(newElement);
+  const newElement = new Card(item, '#element-template');;
+  const newcardElement = newElement.getView();
+    // Добавляем в DOM
+  document.querySelector('.elements__list').prepend(newcardElement);
   closePopup(addPopup);
   form.reset();
   const buttonElement = addPopup.querySelector('.popup__submit');
@@ -162,3 +146,9 @@ overlay.addEventListener('click', function (evt){
   }
 })
 })
+
+const addFormValid = new FormValidator(formSelectors, addFormEl);
+console.log(addFormValid);
+addFormValid.enableValidation();
+const editFormValid = new FormValidator(formSelectors, editFormEl);
+editFormValid.enableValidation();
