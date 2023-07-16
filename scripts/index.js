@@ -1,5 +1,5 @@
 import {Card} from './Card.js';
-import {FormValidator , formSelectors} from './FormValidator.js';
+import {FormValidator} from './FormValidator.js';
 const openPopupEl = document.querySelector('#open-popup');
 const closePopupEl = document.querySelector('#close-popup');
 const editPopupEl = document.querySelector('#edit-popup');
@@ -9,6 +9,14 @@ const nameInputEl = document.querySelector('#name-input');
 const jobInputEl = document.querySelector('#job-input');
 const editFormEl = document.querySelector('#edit-form');
 const closeButtons = document.querySelectorAll('.popup__close-button');
+export const formSelectors  ={
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__button-save__inactive',
+  inputErrorClass: 'form__input_error',
+  errorClass: 'popup__input-error_active'
+}
 
 // форма редактирования имени и работы
 editFormEl.addEventListener('submit',function(event){
@@ -22,14 +30,14 @@ editFormEl.addEventListener('submit',function(event){
 // функция закрытия через Esc
 export const keyOfEsc=27;
 export function closingByEsc(evt){
-  const popup = document.querySelector('.popup_opened');
     if (evt.keyCode === keyOfEsc){
+      const popup = document.querySelector('.popup_opened');
       closePopup(popup);
     }
 }
 
 // функция открытия любого попапа
-function openPopup(popupEl){
+export function openPopup(popupEl){
   popupEl.classList.add('popup_opened');
   document.addEventListener('keydown',closingByEsc);
 }
@@ -65,7 +73,7 @@ const openPopupAdd = document.querySelector('#open-popup-add-button');
 const addPopup = document.querySelector('#add-popup');
 const closePopupAdd = document.querySelector('#close-popup_add');
 
-const imagePopup = document.querySelector('#image-popup');
+export const imagePopup = document.querySelector('#image-popup');
 const closePopupImage = document.querySelector('#close-popup-image'); 
 export const popupImage = imagePopup.querySelector('.popup__image');
 export const popupText = imagePopup.querySelector('.popup__text');
@@ -97,14 +105,16 @@ const initialCards = [
     }
   ]; 
 
-
+function CreateNewCard (item){
+  const card = new Card(item, '#element-template');
+  const cardElement = card.getView();
+  return(cardElement)
+}
 
   initialCards.forEach((item) => {
-    const card = new Card(item, '#element-template');
-    const cardElement = card.getView();
     
-    // Добавляем в DOM
-    document.querySelector('.elements__list').append(cardElement);
+      // Добавляем в DOM
+    document.querySelector('.elements__list').append(CreateNewCard (item));
   }); 
 
 
@@ -123,15 +133,12 @@ addFormEl.addEventListener('submit', function(event){
       name: nameCard,
       link: linkImg 
   }
-  const newElement = new Card(item, '#element-template');;
-  const newcardElement = newElement.getView();
+
     // Добавляем в DOM
-  document.querySelector('.elements__list').prepend(newcardElement);
+    document.querySelector('.elements__list').prepend(CreateNewCard (item));
   closePopup(addPopup);
   form.reset();
-  const buttonElement = addPopup.querySelector('.popup__submit');
-  buttonElement.classList.add('popup__button-save__inactive');
-  buttonElement.setAttribute("disabled", "true");
+  addFormValid._toggleButtonState();
 })
 
 // закрытие попапа кликом на оверлей

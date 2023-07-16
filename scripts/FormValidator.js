@@ -1,11 +1,4 @@
-export const formSelectors  ={
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__button-save__inactive',
-  inputErrorClass: 'form__input_error',
-  errorClass: 'popup__input-error_active'
-}
+import {formSelectors} from './index.js';
   
 export class FormValidator {
   constructor(formSelectors,formElem){
@@ -47,9 +40,8 @@ export class FormValidator {
 
   // слушатель на поля ввода
   _setEventListeners () { 
-    console.log('функция');
     this._formList.forEach((inputElement) => { 
-      console.log(inputElement);
+      this._toggleButtonState(); 
       inputElement.addEventListener('input', () => { 
         this._checkInputValidity(inputElement); 
         this._toggleButtonState(); 
@@ -66,10 +58,10 @@ export class FormValidator {
      
   _toggleButtonState(){ 
     if (this._hasInvalidInput()) { 
-      this._button.classList.add('popup__button-save__inactive'); 
+      this._button.classList.add(this._formSelectors.inactiveButtonClass); 
       this._button.setAttribute("disabled", "true"); 
   } else { 
-    this._button.classList.remove('popup__button-save__inactive'); 
+    this._button.classList.remove(this._formSelectors.inactiveButtonClass); 
     this._button.removeAttribute("disabled"); 
   } 
   } 
