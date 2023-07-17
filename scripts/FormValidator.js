@@ -1,5 +1,3 @@
-import {formSelectors} from './index.js';
-  
 export class FormValidator {
   constructor(formSelectors,formElem){
     this._formSelectors = formSelectors;
@@ -41,10 +39,10 @@ export class FormValidator {
   // слушатель на поля ввода
   _setEventListeners () { 
     this._formList.forEach((inputElement) => { 
-      this._toggleButtonState(); 
+      this.toggleButtonState(); 
       inputElement.addEventListener('input', () => { 
         this._checkInputValidity(inputElement); 
-        this._toggleButtonState(); 
+        this.toggleButtonState(); 
       }); 
     }); 
   }; 
@@ -56,7 +54,7 @@ export class FormValidator {
   }); 
   } 
      
-  _toggleButtonState(){ 
+  toggleButtonState(){ 
     if (this._hasInvalidInput()) { 
       this._button.classList.add(this._formSelectors.inactiveButtonClass); 
       this._button.setAttribute("disabled", "true"); 

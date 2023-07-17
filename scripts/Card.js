@@ -30,7 +30,7 @@ export class Card {
         openPopup(imagePopup);
         popupImage.src = this._link;
         popupText.textContent = this._text;
-        popupImage.alt = this._name;
+        popupImage.alt = this._text;
       }
   
       _setEventListeners(){

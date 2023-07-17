@@ -9,7 +9,7 @@ const nameInputEl = document.querySelector('#name-input');
 const jobInputEl = document.querySelector('#job-input');
 const editFormEl = document.querySelector('#edit-form');
 const closeButtons = document.querySelectorAll('.popup__close-button');
-export const formSelectors  ={
+const formSelectors  ={
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit',
@@ -105,7 +105,7 @@ const initialCards = [
     }
   ]; 
 
-function CreateNewCard (item){
+function createNewCard (item){
   const card = new Card(item, '#element-template');
   const cardElement = card.getView();
   return(cardElement)
@@ -114,7 +114,7 @@ function CreateNewCard (item){
   initialCards.forEach((item) => {
     
       // Добавляем в DOM
-    document.querySelector('.elements__list').append(CreateNewCard (item));
+    document.querySelector('.elements__list').append(createNewCard (item));
   }); 
 
 
@@ -135,10 +135,10 @@ addFormEl.addEventListener('submit', function(event){
   }
 
     // Добавляем в DOM
-    document.querySelector('.elements__list').prepend(CreateNewCard (item));
+    document.querySelector('.elements__list').prepend(createNewCard (item));
   closePopup(addPopup);
   form.reset();
-  addFormValid._toggleButtonState();
+  addFormValid.toggleButtonState();
 })
 
 // закрытие попапа кликом на оверлей
