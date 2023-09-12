@@ -1,0 +1,19 @@
+{
+  "name": "mesto3",
+  "version": "1.0.0",
+  "description": "Был разработан проект *\"Место\"*. Сайт отображается  в Firefox, Google, Chrome, Yandex. С точки зрения верстки,в  проекте применены технологии выравнивания и построения сетки, а так же grid контейнеры. Также в проекте осуществлено всплывающее окно, кнопки и формочка, сделанные при помощи *JavaScript* . Предусмротрено, что страница хорошо отображается на разных разрешениях. Работа выполнена в соотвествии с файловой структурой БЭМ.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
