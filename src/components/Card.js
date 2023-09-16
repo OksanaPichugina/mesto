@@ -6,6 +6,7 @@ export class Card {
     this._element = this._getTemplate();
     this._elemImage = this._element.querySelector(".element__image");
     this._handleCardClick = handleCardClick;
+    this._buttonLike = this._element.querySelector(".element__like");
   }
 
   _getTemplate() {
@@ -43,9 +44,8 @@ export class Card {
       likeButton.classList.toggle("element__like_active");
     }
 
-    const likeButton = this._element.querySelector(".element__like");
-    likeButton.addEventListener("click", () => {
-      likeActive(likeButton);
+    this._buttonLike.addEventListener("click", () => {
+      likeActive(this._buttonLike);
     });
   }
 }

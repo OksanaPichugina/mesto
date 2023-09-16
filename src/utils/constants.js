@@ -1,4 +1,4 @@
-const openPopupEl = document.querySelector("#open-popup");
+const editOpenPopupEl = document.querySelector("#open-popup");
 const nameInputEl = document.querySelector("#name-input");
 const jobInputEl = document.querySelector("#job-input");
 const editFormEl = document.querySelector("#edit-form");
@@ -12,7 +12,7 @@ const formSelectors = {
 };
 
 const addFormEl = document.querySelector("#add-form");
-const openPopupAdd = document.querySelector("#open-popup-add-button");
+const addOpenPopupEl = document.querySelector("#open-popup-add-button");
 const initialCards = [
   {
     name: "Архыз",
@@ -41,12 +41,12 @@ const initialCards = [
 ];
 
 export {
-  openPopupEl,
+  editOpenPopupEl,
   nameInputEl,
   jobInputEl,
   editFormEl,
   formSelectors,
   addFormEl,
-  openPopupAdd,
+  addOpenPopupEl,
   initialCards,
 };

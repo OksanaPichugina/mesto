@@ -5,7 +5,7 @@ export default class Section {
   }
   //принимает параметр element и вставляет его в контейнер методом append
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
 
   clear() {

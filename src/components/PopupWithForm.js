@@ -33,7 +33,6 @@ export default class PopupWithForm extends Popup {
       const fieldValue = input.value;
       formValues[fieldName] = fieldValue;
     });
-    // console.log(formValues)
     return formValues;
   }
 }
