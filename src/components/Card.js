@@ -25,7 +25,6 @@ export class Card {
       .querySelector(".element__name")
       .querySelector(".element__text").textContent = this._text;
     this._elemImage.alt = this._text;
-
     return this._element;
   }
 

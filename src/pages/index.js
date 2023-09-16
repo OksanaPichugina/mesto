@@ -38,7 +38,6 @@ editOpenPopupEl.addEventListener("click", () => {
 
 const popupWithImage = new PopupWithImage("#image-popup");
 
-
 const cardList = new Section(
   {
     renderer: (item) => {
@@ -56,25 +55,25 @@ const cardList = new Section(
 cardList.renderItems(initialCards);
 const addForm = new PopupWithForm("#add-popup", {
   callback: (formValues) => {
-
     const nameCard = formValues.place;
     const linkImg = formValues.link;
-    const newItem = [
-      {
-        name: nameCard,
-        link: linkImg,
-      },
-    ];
-    cardList.renderItems(newItem); 
-    
+    const newItem = {
+      name: nameCard,
+      link: linkImg,
+    };
+    const newcard = new Card(newItem, "#element-template", () => {
+      popupWithImage.open(newItem);
+      popupWithImage.setEventListener();
+    });
+    const newcardElement = newcard.getView();
+    cardList.addItem(newcardElement);
 
     addForm.close();
     addFormValid.enableValidation();
   },
 });
+
 addForm.setEventListener();
 addOpenPopupEl.addEventListener("click", () => {
   addForm.open();
 });
-
-
