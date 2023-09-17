@@ -7,6 +7,7 @@ export class Card {
     this._elemImage = this._element.querySelector(".element__image");
     this._handleCardClick = handleCardClick;
     this._buttonLike = this._element.querySelector(".element__like");
+    this._buttonDelete = this._element.querySelector(".element__delite");
   }
 
   _getTemplate() {
@@ -27,24 +28,24 @@ export class Card {
     this._elemImage.alt = this._text;
     return this._element;
   }
+  // метод удаления карточки
+  remove() {
+    this._element.remove();
+    this._element = null;
+  }
+
+  // метод лайка карточки
+  like() {
+    this._buttonLike.classList.toggle("element__like_active");
+  }
 
   _setEventListeners() {
     this._elemImage.addEventListener("click", () => {
       this._handleCardClick();
     });
 
-    const deleteButton = this._element.querySelector(".element__delite");
-    deleteButton.addEventListener("click", () => {
-      this._element.remove();
-      this._element = null;
-    });
+    this._buttonDelete.addEventListener("click", () => this.remove());
 
-    function likeActive(likeButton) {
-      likeButton.classList.toggle("element__like_active");
-    }
-
-    this._buttonLike.addEventListener("click", () => {
-      likeActive(this._buttonLike);
-    });
+    this._buttonLike.addEventListener("click", () => this.like());
   }
 }

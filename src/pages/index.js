@@ -37,16 +37,17 @@ editOpenPopupEl.addEventListener("click", () => {
 });
 
 const popupWithImage = new PopupWithImage("#image-popup");
-
+function createCard(item){
+  const card = new Card(item, "#element-template", () => {
+    popupWithImage.open(item);
+    popupWithImage.setEventListener();
+  });
+  return card.getView();
+}
 const cardList = new Section(
   {
     renderer: (item) => {
-      const card = new Card(item, "#element-template", () => {
-        popupWithImage.open(item);
-        popupWithImage.setEventListener();
-      });
-      const cardElement = card.getView();
-      cardList.addItem(cardElement);
+      cardList.addItem(createCard(item));
     },
   },
   ".elements__list"
@@ -61,15 +62,10 @@ const addForm = new PopupWithForm("#add-popup", {
       name: nameCard,
       link: linkImg,
     };
-    const newcard = new Card(newItem, "#element-template", () => {
-      popupWithImage.open(newItem);
-      popupWithImage.setEventListener();
-    });
-    const newcardElement = newcard.getView();
-    cardList.addItem(newcardElement);
+    cardList.addItem(createCard(newItem));
 
     addForm.close();
-    addFormValid.enableValidation();
+    addFormValid.toggleButtonState();
   },
 });
 
