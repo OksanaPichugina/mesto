@@ -38,7 +38,7 @@ const cardsApi = {
 const user = new UserInfo(
   ".profile__name",
   ".profile__job",
-  ".profile__avatar_img"
+  ".profile__img"
 );
 
 const userApi = {
