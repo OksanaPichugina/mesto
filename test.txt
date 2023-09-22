@@ -1,0 +1,5 @@
+https://oksanapichugina.github.io/mesto/
+
+npm run deploy
+
+"https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg"

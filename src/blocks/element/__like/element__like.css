@@ -1,19 +1,9 @@
-.element__like {
-  width: 22px;
-  height: 19px;
-  border: 0;
+.element__like{
+  margin:0;
   padding: 0;
-  transition: all 0.2s;
-  cursor: pointer;
-  background: url(./../../../images/button-like.svg);
-}
-
-.element__like:hover {
-  opacity: 0.5;
-  transition: all 0.2s;
-}
-
-.element__like_active {
-  background: url(./../../../images/black_like.svg);
-  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  justify-content: center; 
+  align-items: center; 
 }

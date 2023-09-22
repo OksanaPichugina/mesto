@@ -4,6 +4,7 @@ export default class Popup {
     this.popup = document.querySelector(this._selector);
     this._buttonClose = this.popup.querySelector(".popup__close-button");
     this._handleEscClose = this._handleEscClose.bind(this);
+    this._buttonSave = this.popup.querySelector(".popup__button-save");
   }
 
   open() {
@@ -33,5 +34,8 @@ export default class Popup {
         this.close();
       }
     });
+  }
+  uxForm() {
+    this._buttonSave.textContent = "Сохранение...";
   }
 }
