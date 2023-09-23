@@ -12,7 +12,7 @@ export default class PopupWithForm extends Popup {
     super.setEventListener();
     this.popup.addEventListener("submit", (event) => {
       event.preventDefault();
-      this.uxForm();
+      this.renderLoading(true);
       this._callback(this._getInputValues());
     });
   }
@@ -34,5 +34,13 @@ export default class PopupWithForm extends Popup {
       formValues[fieldName] = fieldValue;
     });
     return formValues;
+  }
+
+  renderLoading(bool) {
+    if (bool) {
+      this._buttonSave.textContent = "Сохранение...";
+    } else {
+      this._buttonSave.textContent = "Сохранить";
+    }
   }
 }

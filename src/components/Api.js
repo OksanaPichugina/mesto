@@ -4,25 +4,41 @@ export default class Api {
     this._headers = headers;
   }
 
-  getMethod() {
-    return fetch(this._url, {
+  _getResponseData(res) {
+    if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`); 
+    }
+    return res.json();
+}  
+
+
+  getMethodCards() {
+    return fetch(`${this._url}/cards`, {
       method: "GET",
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  getMethodUser() {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: this._headers,
+    })
+      .then((res) => {
+        return this._getResponseData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   postCard(name, link) {
-    return fetch(this._url, {
+    return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -31,11 +47,7 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -43,7 +55,7 @@ export default class Api {
   }
 
   patchMethod(name, about) {
-    return fetch(this._url, {
+    return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -52,11 +64,7 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -64,7 +72,7 @@ export default class Api {
   }
 
   patchAvatar(avatar) {
-    return fetch(`${this._url}/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -72,11 +80,7 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -84,15 +88,12 @@ export default class Api {
   }
 
   deleteMethod(id) {
-    return fetch(`${this._url}/${id}`, {
+    return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -100,15 +101,12 @@ export default class Api {
   }
 
   putLike(id) {
-    return fetch(`${this._url}/${id}/likes`, {
+    return fetch(`${this._url}/cards/${id}/likes`, {
       method: "PUT",
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json(); //вернется одна обновленная карточка
-        }
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);
@@ -116,15 +114,12 @@ export default class Api {
   }
 
   removeLike(id) {
-    return fetch(`${this._url}/${id}/likes`, {
+    return fetch(`${this._url}/cards/${id}/likes`, {
       method: "DELETE",
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json(); //вернется одна обновленная карточка
-        }
-        throw new Error("Что-то пошло не так");
+        return this._getResponseData(res);
       })
       .catch((err) => {
         console.log(err);

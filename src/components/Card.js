@@ -7,7 +7,7 @@ export class Card {
     ownerId,
     handleLikeClick
   ) {
-    console.log(data);
+    //console.log(data);
     this._text = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
@@ -60,12 +60,11 @@ export class Card {
     if (this._ownerId === this._cardOwnerId) {
       this._buttonDelete.classList.add("element__delite_active");
     }
-    //this._buttonDelete.classList.add("element__delite_active");
   }
 
   // метод лайка карточки
   like() {
-    //console.log(this._id);
+    console.log(this._quantityLikes);
     let bool;
     if (this._buttonLike.classList.contains("element__like_button_active")) {
       bool = true;
@@ -73,15 +72,14 @@ export class Card {
       bool = false;
     }
     this._handleLikeClick(this._id, bool);
-    // this._buttonLike.classList.toggle("element__like_button_active");
   }
 
-  likeCard() {
+  likeCard(quantity) {
     console.log("сработало");
     this._buttonLike.classList.toggle("element__like_button_active");
     this._element
       .querySelector(".element__like")
-      .querySelector(".element__like_count").textContent = this._quantityLikes;
+      .querySelector(".element__like_count").textContent = quantity;
   }
 
   _checkLike() {

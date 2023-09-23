@@ -28,83 +28,140 @@ editFormValid.enableValidation();
 const avatarFormValid = new FormValidator(formSelectors, avatarFormEl);
 avatarFormValid.enableValidation();
 
-const cardsApi = {
-  url: "https://nomoreparties.co/v1/cohort-75/cards",
+const api = {
+  url: "https://nomoreparties.co/v1/cohort-75",
   headers: {
     authorization: "2f4a0f3f-0cc6-4586-a3d5-35eed1a37f2e",
     "Content-Type": "application/json",
   },
 };
-const user = new UserInfo(
-  ".profile__name",
-  ".profile__job",
-  ".profile__img"
-);
+const user = new UserInfo(".profile__name", ".profile__job", ".profile__img");
 
-const userApi = {
-  url: "https://nomoreparties.co/v1/cohort-75/users/me",
-  headers: {
-    authorization: "2f4a0f3f-0cc6-4586-a3d5-35eed1a37f2e",
-    "Content-Type": "application/json",
-  },
-};
-const cardsApiRes = new Api(cardsApi);
-const userApiRes = new Api(userApi);
+const apiRes = new Api(api);
+
 let ownerId = "";
-userApiRes.getMethod().then((us) => {
-  user.setUserInfo(us.name, us.about, us.avatar);
-  ownerId = us._id;
-});
 
 const editForm = new PopupWithForm("#edit-popup", {
   callback: (formValues) => {
-    userApiRes.patchMethod(formValues.name, formValues.job).then((res) => {
-      user.setUserInfo(res.name, res.about, res.avatar);
-    });
-
-    user.setUserInfo(formValues.name, formValues.job, "");
-    editForm.close();
-  },
-});
-
-const avatarForm = new PopupWithForm("#avatar-popup", {
-  callback: (formValues) => {
-    userApiRes.patchAvatar(formValues.avatar).then((res) => {
-      user.setUserInfo(res.name, res.about, res.avatar);
-    });
-    //user.setUserInfo(formValues.name, formValues.job, '');
-    // avatarForm.uxForm();
-    avatarForm.close();
+    apiRes
+      .patchMethod(formValues.name, formValues.job)
+      .then((res) => {
+        user.setUserInfo(res.name, res.about, res.avatar);
+        return res.avatar
+      })
+      .then((res) => {
+        user.setUserInfo(formValues.name, formValues.job, res);
+        editForm.close();
+      })
+      .then(() => {
+        editForm.renderLoading(false);
+      });
   },
 });
 
 editForm.setEventListener();
-editOpenPopupEl.addEventListener("click", () => {
-  editForm.open();
-  const userInform = user.getUserInfo();
-  nameInputEl.value = userInform.name;
-  jobInputEl.value = userInform.job;
-});
 
-avatarForm.setEventListener();
-avatarOpenPopupEl.addEventListener("click", () => {
-  avatarForm.open();
-  //const userInform = user.getUserInfo();
-  //nameInputEl.value = userInform.name;
-  //jobInputEl.value = userInform.job;
+const avatarForm = new PopupWithForm("#avatar-popup", {
+  callback: (formValues) => {
+    apiRes
+      .patchAvatar(formValues.avatar)
+      .then((res) => {
+        user.setUserInfo(res.name, res.about, res.avatar);
+        avatarForm.close();
+        avatarFormValid.toggleButtonState();
+      })
+      .then(() => {
+        avatarForm.renderLoading(false);
+      });
+  },
 });
+avatarForm.setEventListener();
 
 const popupWithImage = new PopupWithImage("#image-popup");
 const popupWithSubmit = new PopupWithSubmit("#submit-popup", (card, idCard) => {
-  cardsApiRes
+  apiRes
     .deleteMethod(idCard)
     .then(() => {
       card.deleteCard();
+      popupWithSubmit.close();
     })
     .then(() => {
-      popupWithSubmit.close();
+      popupWithSubmit.renderLoading(false);
     });
 });
+
+const addForm = new PopupWithForm("#add-popup", {
+  callback: (formValues) => {
+    const nameCard = formValues.place;
+    const linkImg = formValues.link;
+    const newItem = {
+      name: nameCard,
+      link: linkImg,
+    };
+    apiRes
+      .postCard(nameCard, linkImg)
+      .then((res) => {
+        const newCard = createCard(res);
+        cardList.addItem(newCard);
+        addForm.close();
+        addFormValid.toggleButtonState();
+      })
+      .then(() => {
+        addForm.renderLoading(false);
+      });
+  },
+});
+
+addForm.setEventListener();
+
+// ОТРИСОВЫВАЕМ СТРАНИЦУ
+Promise.all([
+  //в Promise.all передаем массив промисов которые нужно выполнить
+
+  apiRes.getMethodUser(),
+
+  apiRes.getMethodCards(),
+])
+
+  .then((values) => {
+    //попадаем сюда когда оба промиса будут выполнены
+
+    console.log(values);
+    const renderingUser = (us) => {
+      user.setUserInfo(us.name, us.about, us.avatar);
+      ownerId = us._id;
+    };
+    renderingUser(values[0]);
+
+    const renderingCard = (masCards) => {
+      cardList.renderItems(masCards);
+    };
+    renderingCard(values[1]);
+    // у нас есть все нужные данные, отрисовываем страницу
+  })
+
+  .then(() => {
+    editOpenPopupEl.addEventListener("click", () => {
+      editForm.open();
+      const userInform = user.getUserInfo();
+      nameInputEl.value = userInform.name;
+      jobInputEl.value = userInform.job;
+    });
+
+    avatarOpenPopupEl.addEventListener("click", () => {
+      avatarForm.open();
+    });
+
+    addOpenPopupEl.addEventListener("click", () => {
+      addForm.open();
+    });
+  })
+
+  .catch((err) => {
+    //попадаем сюда если один из промисов завершатся ошибкой
+
+    console.log(err);
+  });
 
 function createCard(item) {
   const card = new Card(
@@ -121,14 +178,14 @@ function createCard(item) {
     ownerId,
     (id, bool) => {
       if (bool) {
-        cardsApiRes.removeLike(id).then(() => {
-          card.likeCard();
-          card.getView();
+        apiRes.removeLike(id).
+        then((res) => {
+          card.likeCard(res.likes.length);
         });
       } else {
-        cardsApiRes.putLike(id).then(() => {
-          card.likeCard();
-          card.getView();
+        apiRes.putLike(id).
+        then((res) => {
+          card.likeCard(res.likes.length);
         });
       }
     }
@@ -144,31 +201,3 @@ const cardList = new Section(
   },
   ".elements__list"
 );
-cardsApiRes.getMethod().then((cards) => {
-  cardList.renderItems(cards);
-});
-
-const addForm = new PopupWithForm("#add-popup", {
-  callback: (formValues) => {
-    const nameCard = formValues.place;
-    const linkImg = formValues.link;
-    const newItem = {
-      name: nameCard,
-      link: linkImg,
-    };
-    cardsApiRes.postCard(nameCard, linkImg).then((res) => {
-      editForm.uxForm();
-      const newCard = createCard(res);
-      console.log(newCard);
-      cardList.addItem(newCard);
-    });
-    avatarForm.uxForm();
-    addForm.close();
-    addFormValid.toggleButtonState();
-  },
-});
-
-addForm.setEventListener();
-addOpenPopupEl.addEventListener("click", () => {
-  addForm.open();
-});

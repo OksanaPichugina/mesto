@@ -35,7 +35,4 @@ export default class Popup {
       }
     });
   }
-  uxForm() {
-    this._buttonSave.textContent = "Сохранение...";
-  }
 }
