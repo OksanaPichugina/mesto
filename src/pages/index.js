@@ -191,7 +191,7 @@ function createCard(item) {
     },
     (id) => {
       popupWithSubmit.open();
-      popupWithSubmit.deleteCardAfterSubmit(card,id);
+      popupWithSubmit.rememberCardAndId(card, id)
     },
     ownerId,
     (id, bool) => {
