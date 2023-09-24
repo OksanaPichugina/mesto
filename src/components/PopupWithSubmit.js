@@ -6,15 +6,6 @@ export default class PopupWithSubmit extends Popup {
     this._form = this.popup.querySelector(".popup__form");
   }
 
-  setEventListener(card, id) {
-    super.setEventListener();
-    this._form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      this.renderLoading(true);
-      this._deleteCard(card, id);
-    });
-  }
-
   deleteCardAfterSubmit(card,id){
     this._form.addEventListener("submit", (event) => {
       event.preventDefault();
