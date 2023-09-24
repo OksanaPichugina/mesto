@@ -53,7 +53,11 @@ const editForm = new PopupWithForm("#edit-popup", {
         user.setUserInfo(formValues.name, formValues.job, res);
         editForm.close();
       })
-      .then(() => {
+      .catch((err) => { 
+        //попадаем сюда если один из промисов завершатся ошибкой 
+        console.log(err); 
+      })
+      .finally(() => {
         editForm.renderLoading(false);
       });
   },
@@ -70,7 +74,11 @@ const avatarForm = new PopupWithForm("#avatar-popup", {
         avatarForm.close();
         avatarFormValid.toggleButtonState();
       })
-      .then(() => {
+      .catch((err) => { 
+        //попадаем сюда если один из промисов завершатся ошибкой 
+        console.log(err); 
+      })
+      .finally(() => {
         avatarForm.renderLoading(false);
       });
   },
@@ -85,10 +93,16 @@ const popupWithSubmit = new PopupWithSubmit("#submit-popup", (card, idCard) => {
       card.deleteCard();
       popupWithSubmit.close();
     })
-    .then(() => {
+    .catch((err) => { 
+      //попадаем сюда если один из промисов завершатся ошибкой 
+      console.log(err); 
+    })
+    .finally(() => {
       popupWithSubmit.renderLoading(false);
     });
 });
+
+popupWithSubmit.setEventListener();
 
 const addForm = new PopupWithForm("#add-popup", {
   callback: (formValues) => {
@@ -106,13 +120,18 @@ const addForm = new PopupWithForm("#add-popup", {
         addForm.close();
         addFormValid.toggleButtonState();
       })
-      .then(() => {
+      .catch((err) => { 
+        //попадаем сюда если один из промисов завершатся ошибкой 
+        console.log(err); 
+      })
+      .finally(() => {
         addForm.renderLoading(false);
       });
   },
 });
 
 addForm.setEventListener();
+popupWithImage.setEventListener();
 
 // ОТРИСОВЫВАЕМ СТРАНИЦУ
 Promise.all([
@@ -169,11 +188,10 @@ function createCard(item) {
     "#element-template",
     () => {
       popupWithImage.open(item);
-      popupWithImage.setEventListener();
     },
     (id) => {
       popupWithSubmit.open();
-      popupWithSubmit.setEventListener(card, id);
+      popupWithSubmit.deleteCardAfterSubmit(card,id);
     },
     ownerId,
     (id, bool) => {
@@ -181,12 +199,20 @@ function createCard(item) {
         apiRes.removeLike(id).
         then((res) => {
           card.likeCard(res.likes.length);
-        });
+        })
+        .catch((err) => { 
+          //попадаем сюда если один из промисов завершатся ошибкой 
+          console.log(err); 
+        })
       } else {
         apiRes.putLike(id).
         then((res) => {
           card.likeCard(res.likes.length);
-        });
+        })
+        .catch((err) => { 
+          //попадаем сюда если один из промисов завершатся ошибкой 
+          console.log(err); 
+        })
       }
     }
   );

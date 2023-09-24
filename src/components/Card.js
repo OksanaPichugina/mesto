@@ -88,7 +88,6 @@ export class Card {
 
   _checkLike() {
     this._likes.forEach((like) => {
-      console.log(like);
       if ((this._ownerId == like._id)) {
         this._buttonLike.classList.add("element__like_button_active");
       }

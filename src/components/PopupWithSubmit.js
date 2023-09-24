@@ -15,6 +15,14 @@ export default class PopupWithSubmit extends Popup {
     });
   }
 
+  deleteCardAfterSubmit(card,id){
+    this._form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.renderLoading(true);
+      this._deleteCard(card, id);
+    });
+  }
+
   renderLoading(bool) {
     if (bool) {
       this._buttonSave.textContent = "Сохранение...";

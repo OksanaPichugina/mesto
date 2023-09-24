@@ -20,9 +20,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   getMethodUser() {
@@ -33,9 +30,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
   postCard(name, link) {
     return fetch(`${this._url}/cards`, {
@@ -49,9 +43,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   patchMethod(name, about) {
@@ -66,9 +57,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   patchAvatar(avatar) {
@@ -82,9 +70,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   deleteMethod(id) {
@@ -95,9 +80,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   putLike(id) {
@@ -108,9 +90,6 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   removeLike(id) {
@@ -121,8 +100,5 @@ export default class Api {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 }
